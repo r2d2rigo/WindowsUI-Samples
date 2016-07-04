@@ -1,0 +1,88 @@
+﻿<Page
+    x:Class="CustomItemContainerTransitions.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CustomItemContainerTransitions"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CustomItemContainerTransitions.Controls"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <controls:CompositionGridView x:Name="UsersList">
+            <controls:CompositionGridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </controls:CompositionGridView.ItemContainerStyle>
+
+            <controls:CompositionGridView.ItemCompositionTransition>
+                <controls:PopInCompositionTransition Duration="0:0:5.500" />
+            </controls:CompositionGridView.ItemCompositionTransition>
+            
+            <controls:CompositionGridView.ItemContainerTransitions>
+                <TransitionCollection />
+            </controls:CompositionGridView.ItemContainerTransitions>
+
+            <controls:CompositionGridView.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundListLowBrush}" Margin="4" Padding="8" Width="480">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="DeleteButton" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Click="DeleteButton_Click">
+                            <Button.Content>
+                                <SymbolIcon Symbol="Cancel" />
+                            </Button.Content>
+                        </Button>
+
+                        <Ellipse Grid.Column="0" Margin="8" StrokeThickness="1" Stroke="{ThemeResource SystemControlForegroundAccentBrush}" Width="120" Height="120">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding ProfileImage}" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+
+                        <Grid Grid.Column="1" Margin="32,8,8,8" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <SymbolIcon Grid.Row="0" Grid.Column="0" Symbol="Contact" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                <SymbolIcon.RenderTransform>
+                                    <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                                </SymbolIcon.RenderTransform>
+                            </SymbolIcon>
+                            <SymbolIcon Grid.Row="2" Grid.Column="0" Symbol="Mail" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                <SymbolIcon.RenderTransform>
+                                    <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+                                </SymbolIcon.RenderTransform>
+                            </SymbolIcon>
+                            <SymbolIcon Grid.Row="4" Grid.Column="0" Symbol="Phone" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                <SymbolIcon.RenderTransform>
+                                    <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+                                </SymbolIcon.RenderTransform>
+                            </SymbolIcon>
+
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding FullName}" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding EmailAddress}" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding MobilePhoneNumber}" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </controls:CompositionGridView.ItemTemplate>
+        </controls:CompositionGridView>
+    </Grid>
+</Page>
