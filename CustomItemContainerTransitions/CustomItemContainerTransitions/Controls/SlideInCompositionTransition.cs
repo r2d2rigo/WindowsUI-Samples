@@ -4,8 +4,12 @@ using Windows.UI.Xaml.Hosting;
 
 namespace CustomItemContainerTransitions.Controls
 {
-    public class SlideInCompositionTransition :  ItemCompositionTransitionBase
+    public sealed class SlideInCompositionTransition :  ItemCompositionTransitionBase
     {
+        public SlideInCompositionTransition()
+        {
+        }
+
         public override void Animate(UIElement container)
         {
             var visual = ElementCompositionPreview.GetElementVisual(container);

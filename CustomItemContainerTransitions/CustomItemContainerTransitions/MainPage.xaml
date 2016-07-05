@@ -6,83 +6,261 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CustomItemContainerTransitions.Controls"
+    xmlns:viewModel="using:CustomItemContainerTransitions.ViewModels"
+    x:Name="PageRoot"
     mc:Ignorable="d">
+    <Page.DataContext>
+        <viewModel:MainViewModel />
+    </Page.DataContext>
+
+    <Page.Resources>
+        <controls:FlipOverCompositionTransition x:Key="Dummy1" />
+        <controls:PopInCompositionTransition x:Key="Dummy2" />
+        <controls:SlideInCompositionTransition x:Key="Dummy3" />
+        <Style x:Key="FlatComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="MinWidth" Value="{ThemeResource ComboBoxThemeMinWidth}"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundAccentBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="TabNavigation" Value="Once"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
+            <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+            <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <CarouselPanel/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlPageBackgroundAltMediumBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundListMediumBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="HeaderContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="PlaceholderTextBlock">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="DropDownGlyph">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="HighlightBackground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="HighlightBackground"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="PlaceholderTextBlock">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="DropDownGlyph">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseMediumHighBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="FocusedPressed">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="HighlightBackground"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="PlaceholderTextBlock">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="DropDownGlyph">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseMediumHighBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unfocused"/>
+                                    <VisualState x:Name="PointerFocused"/>
+                                    <VisualState x:Name="FocusedDropDown">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Visibility" Storyboard.TargetName="PopupBorder">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DropDownStates">
+                                    <VisualState x:Name="Opened">
+                                        <Storyboard>
+                                            <SplitOpenThemeAnimation ClosedTargetName="ContentPresenter" OffsetFromCenter="{Binding TemplateSettings.DropDownOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" OpenedTargetName="PopupBorder" OpenedLength="{Binding TemplateSettings.DropDownOpenedHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Closed">
+                                        <Storyboard>
+                                            <SplitCloseThemeAnimation ClosedTargetName="ContentPresenter" OffsetFromCenter="{Binding TemplateSettings.DropDownOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" OpenedTargetName="PopupBorder" OpenedLength="{Binding TemplateSettings.DropDownOpenedHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" FontWeight="{ThemeResource ComboBoxHeaderThemeFontWeight}" FlowDirection="{TemplateBinding FlowDirection}" Margin="{ThemeResource ComboBoxHeaderThemeMargin}" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
+                            <Border x:Name="Background" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" Grid.Row="1"/>
+                            <Border x:Name="HighlightBackground" BorderBrush="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{ThemeResource SystemControlHighlightListAccentLowBrush}" Grid.ColumnSpan="2" Opacity="0" Grid.Row="1"/>
+                            <ContentPresenter x:Name="ContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Grid.Row="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <TextBlock x:Name="PlaceholderTextBlock" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}" Text="{TemplateBinding PlaceholderText}"/>
+                            </ContentPresenter>
+                            <FontIcon x:Name="DropDownGlyph" AutomationProperties.AccessibilityView="Raw" Grid.Column="1" Foreground="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" FontSize="12" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="" HorizontalAlignment="Right" IsHitTestVisible="False" Margin="0" Grid.Row="1" VerticalAlignment="Center"/>
+                            <Popup x:Name="Popup">
+                                <Border x:Name="PopupBorder" BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}" BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" HorizontalAlignment="Stretch" Margin="0,-1,0,-1">
+                                    <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" MinWidth="{Binding TemplateSettings.DropDownContentMinWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalSnapPointsType="OptionalSingle" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" VerticalSnapPointsAlignment="Near" ZoomMode="Disabled">
+                                        <ItemsPresenter Margin="{ThemeResource ComboBoxDropdownContentMargin}"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:CompositionGridView x:Name="UsersList">
-            <controls:CompositionGridView.ItemContainerStyle>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="8">
+            <TextBlock Text="Transition animation:" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Bottom" />
+            <ComboBox x:Name="ActiveAnimationComboBox" Margin="8,0,0,0" ItemsSource="{Binding Transitions}" SelectedItem="{Binding ActiveTransition, Mode=TwoWay}" VerticalAlignment="Bottom" Style="{StaticResource FlatComboBoxStyle}" SelectionChanged="ActiveAnimationComboBox_SelectionChanged" DisplayMemberPath="Name" />
+        </StackPanel>
+
+        <GridView Grid.Row="1" x:Name="UsersGrid" ItemsSource="{Binding Users}">
+            <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
-            </controls:CompositionGridView.ItemContainerStyle>
+            </GridView.ItemContainerStyle>
 
-            <controls:CompositionGridView.ItemCompositionTransition>
-                <controls:PopInCompositionTransition Duration="0:0:5.500" />
-            </controls:CompositionGridView.ItemCompositionTransition>
-            
-            <controls:CompositionGridView.ItemContainerTransitions>
+            <GridView.ItemContainerTransitions>
                 <TransitionCollection />
-            </controls:CompositionGridView.ItemContainerTransitions>
+            </GridView.ItemContainerTransitions>
 
-            <controls:CompositionGridView.ItemTemplate>
+            <GridView.ItemTemplate>
                 <DataTemplate>
-                    <Grid HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundListLowBrush}" Margin="4" Padding="8" Width="480">
+                    <controls:CompositionContentPresenter ItemCompositionTransition="{Binding DataContext.ActiveTransition.Transition, ElementName=PageRoot}">
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                        <Grid HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundListLowBrush}" Margin="4" Padding="8" Width="440">
 
-                        <Button x:Name="DeleteButton" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Click="DeleteButton_Click">
-                            <Button.Content>
-                                <SymbolIcon Symbol="Cancel" />
-                            </Button.Content>
-                        </Button>
-
-                        <Ellipse Grid.Column="0" Margin="8" StrokeThickness="1" Stroke="{ThemeResource SystemControlForegroundAccentBrush}" Width="120" Height="120">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="{Binding ProfileImage}" />
-                            </Ellipse.Fill>
-                        </Ellipse>
-
-                        <Grid Grid.Column="1" Margin="32,8,8,8" VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="8" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="8" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="8" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
+                            <Ellipse Grid.Column="0" Margin="8" StrokeThickness="1" Stroke="{ThemeResource SystemControlForegroundAccentBrush}" Width="120" Height="120">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding ProfileImage}" />
+                                </Ellipse.Fill>
+                            </Ellipse>
 
-                            <SymbolIcon Grid.Row="0" Grid.Column="0" Symbol="Contact" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                                <SymbolIcon.RenderTransform>
-                                    <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
-                                </SymbolIcon.RenderTransform>
-                            </SymbolIcon>
-                            <SymbolIcon Grid.Row="2" Grid.Column="0" Symbol="Mail" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                                <SymbolIcon.RenderTransform>
-                                    <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
-                                </SymbolIcon.RenderTransform>
-                            </SymbolIcon>
-                            <SymbolIcon Grid.Row="4" Grid.Column="0" Symbol="Phone" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                                <SymbolIcon.RenderTransform>
-                                    <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
-                                </SymbolIcon.RenderTransform>
-                            </SymbolIcon>
+                            <Grid Grid.Column="1" Margin="32,8,8,8" VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding FullName}" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                            <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding EmailAddress}" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                            <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding MobilePhoneNumber}" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="8" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="8" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <SymbolIcon Grid.Row="0" Grid.Column="0" Symbol="Contact" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                    <SymbolIcon.RenderTransform>
+                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                                    </SymbolIcon.RenderTransform>
+                                </SymbolIcon>
+                                <SymbolIcon Grid.Row="2" Grid.Column="0" Symbol="Mail" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                    <SymbolIcon.RenderTransform>
+                                        <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+                                    </SymbolIcon.RenderTransform>
+                                </SymbolIcon>
+                                <SymbolIcon Grid.Row="4" Grid.Column="0" Symbol="Phone" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                    <SymbolIcon.RenderTransform>
+                                        <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+                                    </SymbolIcon.RenderTransform>
+                                </SymbolIcon>
+
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding FullName}" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding EmailAddress}" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding MobilePhoneNumber}" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </controls:CompositionContentPresenter>
                 </DataTemplate>
-            </controls:CompositionGridView.ItemTemplate>
-        </controls:CompositionGridView>
+            </GridView.ItemTemplate>
+        </GridView>
     </Grid>
 </Page>
