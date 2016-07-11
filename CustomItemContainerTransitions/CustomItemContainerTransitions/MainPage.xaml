@@ -14,9 +14,14 @@
     </Page.DataContext>
 
     <Page.Resources>
+        <!--
+        We have to instantiate these classes on XAML at least once, otherwise the app won't work since XAML can't resolve
+        the type properly. Another approach is to implement the IXamlMetadataProvider interface on each of the types.
+        -->
         <controls:FlipOverCompositionTransition x:Key="Dummy1" />
         <controls:PopInCompositionTransition x:Key="Dummy2" />
         <controls:SlideInCompositionTransition x:Key="Dummy3" />
+        
         <Style x:Key="FlatComboBoxStyle" TargetType="ComboBox">
             <Setter Property="Padding" Value="0"/>
             <Setter Property="MinWidth" Value="{ThemeResource ComboBoxThemeMinWidth}"/>

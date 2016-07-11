@@ -20,6 +20,11 @@ namespace CustomItemContainerTransitions
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Reload users when the active transition changes, this way we force it to play again.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ActiveAnimationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var viewModel = this.DataContext as MainViewModel;

@@ -1,13 +1,18 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace CustomItemContainerTransitions.DataAccess
 {
+    /// <summary>
+    /// Data repository for retrieving test user profiles, using the excellent https://randomuser.me/ service.
+    /// </summary>
     public class RandomUserRepository
     {
+        /// <summary>
+        /// Returns 50 random users generated with a fixed seed.
+        /// </summary>
+        /// <returns>List of <see cref="\UserProfile"/> containing the profiles.</returns>
         public List<UserProfile> GetRandomUsers()
         {
             var users = new List<UserProfile>();
